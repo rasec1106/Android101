@@ -22,13 +22,20 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    Greeting("Lili")
                 }
             }
         }
     }
 }
 
+/**
+ * To be aware of:
+ * - We can start thinking of Composables as UI blocks
+ * - Composables can exist outside a class
+ * - They start with a Capital Letter (instead normal functions start with non-capital letters and
+ *      follow camelCase convention)
+ */
 @Composable
 fun Greeting(name: String) {
     Text(text = "Hello $name!")
@@ -38,6 +45,6 @@ fun Greeting(name: String) {
 @Composable
 fun DefaultPreview() {
     Session02Theme {
-        Greeting("Android")
+        Greeting("Cesar")
     }
 }
