@@ -4,10 +4,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
-import androidx.compose.material.TextField
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,12 +28,17 @@ fun Login(){
             modifier = Modifier.fillMaxWidth(),
             label = { Text(text = "Username")},
             value = "",
-            onValueChange = {} )
+            onValueChange = {},
+            // leadingIcon puts an icon at the beginning, trailingIcon at the end
+            leadingIcon = {Icon(Icons.Default.Person, null)}
+        )
         TextField(
             modifier = Modifier.fillMaxWidth(),
             label = { Text(text = "Password")},
             value = "",
-            onValueChange = {} )
+            onValueChange = {},
+            leadingIcon = {Icon(Icons.Default.Lock, null)}
+        )
         Button(onClick = { /*TODO*/ }) {
             Text(text = "Sign in")
         }
