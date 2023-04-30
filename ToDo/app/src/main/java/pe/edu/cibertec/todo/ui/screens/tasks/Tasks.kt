@@ -1,11 +1,9 @@
 package pe.edu.cibertec.todo.ui.screens.tasks
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -34,6 +32,9 @@ fun Tasks(){
     val newName = remember {
         mutableStateOf(TextFieldValue())
     }
+    val isEnabled = remember {
+        mutableStateOf(false)
+    }
     // Wrapping all inside a new Composable called Scaffold
     Scaffold(
         /**
@@ -56,9 +57,14 @@ fun Tasks(){
             TopAppBar(
                 title = {Text(text = "To Do")},
                 actions = {
-                    IconButton(onClick = {
-                        names.add(newName.value.text)
-                    }) {
+                    IconButton(
+                        onClick = {
+                            names.add(newName.value.text)
+                            newName.value = TextFieldValue()
+                            isEnabled.value = false
+                        },
+                        enabled = isEnabled.value
+                    ) {
                         Icon(Icons.Filled.Add, null)
                     }
                 }
@@ -72,17 +78,29 @@ fun Tasks(){
                 value = newName.value,
                 onValueChange = {
                     newName.value = it
-                }
+                    isEnabled.value = newName.value.text.isNotEmpty()
+                },
+                // we could also add some Keyboard mapping
+                // The objective is to add a new element when the user hits enter
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        names.add(newName.value.text)
+                        newName.value = TextFieldValue()
+                        isEnabled.value = false
+                    }
+                )
             )
             // This button has been replaced by the floating button of the Scaffold
 //            Button(onClick = {
-//                newName.value = TextFieldValue("Prueba")
+//                newName.value = TextFieldValue("Test")
 //            }) {
 //                Text(text = "Submit")
 //            }
             LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(names) {
-                    Text(text = it)
+                items(names) {name->
+                    Row {
+                        Text(text = name)
+                    }
                 }
             }
         }
