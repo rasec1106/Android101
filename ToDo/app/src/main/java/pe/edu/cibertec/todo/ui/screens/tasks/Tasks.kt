@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import pe.edu.cibertec.todo.ui.theme.ToDoTheme
 
 @Composable
@@ -28,7 +29,7 @@ fun Tasks(){
 //    val names = mutableListOf("Lili","Diego","Jorge")
     // We transform names into a state, so Kotlin can re-render when it changes
     val names = remember {
-        mutableStateListOf<String>()
+        mutableStateListOf<String>("Lili","Diego","Jorge")
     }
     // Create a state
     val newName = remember {
@@ -98,18 +99,26 @@ fun Tasks(){
 //            }) {
 //                Text(text = "Submit")
 //            }
-            LazyColumn(modifier = Modifier.fillMaxSize()) {
+            LazyColumn(modifier = Modifier.fillMaxSize().padding(8.dp)) {
                 items(names) {name->
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
+                    Card(
+                        elevation = 2.dp,
+                        modifier = Modifier.padding(vertical = 4.dp)
                     ) {
-                        Text(text = name)
-                        IconButton(onClick = {
-                            names.remove(name)
-                        }) {
-                            Icon(Icons.Filled.Delete, null)
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = name,
+                                modifier = Modifier.padding(start = 8.dp)
+                            )
+                            IconButton(onClick = {
+                                names.remove(name)
+                            }) {
+                                Icon(Icons.Filled.Delete, null)
+                            }
                         }
                     }
                 }
