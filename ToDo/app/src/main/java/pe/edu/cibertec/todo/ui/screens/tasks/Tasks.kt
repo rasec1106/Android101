@@ -8,7 +8,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import pe.edu.cibertec.todo.ui.theme.ToDoTheme
 
@@ -21,12 +24,18 @@ fun Tasks(){
 
     val names = listOf("Lili","Diego","Jorge")
 
+    // Create a state
+    var newName = remember {
+        mutableStateOf(TextFieldValue())
+    }
     Column {
         TextField(
             modifier = Modifier.fillMaxWidth(),
             label = { Text(text = "New name")},
-            value = "",
-            onValueChange = {}
+            value = newName.value,
+            onValueChange = {
+                newName.value = it
+            }
         )
         LazyColumn(modifier = Modifier.fillMaxSize()){
             items(names){
