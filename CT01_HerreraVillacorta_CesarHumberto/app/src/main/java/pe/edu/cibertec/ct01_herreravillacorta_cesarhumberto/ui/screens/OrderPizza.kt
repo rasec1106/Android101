@@ -1,12 +1,17 @@
 package pe.edu.cibertec.ct01_herreravillacorta_cesarhumberto.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pe.edu.cibertec.ct01_herreravillacorta_cesarhumberto.model.Order
@@ -18,15 +23,19 @@ import pe.edu.cibertec.ct01_herreravillacorta_cesarhumberto.ui.theme.CT01_Herrer
 fun OrderPizza() {
 
     val toppingsList = mutableListOf<Topping>(
-        Topping("Onions",1),
-        Topping("Olives",2),
-        Topping("Tomatoes",3)
+        Topping("Onions",1, false),
+        Topping("Olives",2, false),
+        Topping("Tomatoes",3, false)
     )
     val pizzaSizeList = mutableListOf<PizzaSize>(
         PizzaSize("Small",5),
         PizzaSize("Medium",7),
         PizzaSize("Large",9)
     )
+    val selectedPizzaSize = remember {
+        mutableStateOf(pizzaSizeList.first())
+    }
+    val context = LocalContext.current
 
     Scaffold(topBar = { MyTopBar() }) {paddingValues ->
         Column(modifier = Modifier
@@ -49,17 +58,10 @@ fun OrderPizza() {
                             Text(text = "Choose your pizza size:")
                         }
                         Row(modifier = Modifier.fillMaxWidth()) {
-                            LazyColumn{
-                                items(pizzaSizeList){size ->
-                                    Row(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        RadioButton(selected = false, onClick = { /*TODO*/ })
-                                        Text(text = size.size)
-                                    }
-                                }
-                            }
+                            MyRadioButtonGroup(
+                                pizzaSizeList = pizzaSizeList,
+                                selectedPizzaSizeState = selectedPizzaSize
+                            )
                         }
                     }
                 }
@@ -84,7 +86,7 @@ fun OrderPizza() {
                         Row(modifier = Modifier.fillMaxWidth()) {
                             LazyColumn{
                                 items(toppingsList){topping ->
-                                    MyCheckbox(isChecked = false, description = topping.name )
+                                    MyCheckbox(topping)
                                 }
                             }
                         }
@@ -95,7 +97,18 @@ fun OrderPizza() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                Button(onClick = { /*TODO*/ }) {
+                Button(onClick = {
+                    val myOrder = Order(selectedPizzaSize.value,mutableListOf())
+                    toppingsList.forEach{topping ->  
+                        if (topping.isSelected.value)
+                            myOrder.addTopping(topping)
+                    }
+                    Toast.makeText(
+                        context,
+                        "Correct ${myOrder.calculateTotal()}",
+                        Toast.LENGTH_SHORT)
+                        .show()
+                }) {
                     Text(text = "Confirm")
                 }
             }
@@ -117,17 +130,53 @@ fun MyTopBar() {
     )
 }
 @Composable
-fun MyCheckbox(isChecked: Boolean, description: String){
+fun MyCheckbox(topping: Topping){
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Checkbox(checked = false, onCheckedChange = {
-
+        Checkbox(checked = topping.isSelected.value, onCheckedChange = {
+            topping.isSelected.value = it
         })
-        Text(text = description)
+        Text(text = "${topping.name} ($${topping.price})")
     }
-
+}
+@Composable
+fun MyRadioButtonGroup(
+    pizzaSizeList: MutableList<PizzaSize>,
+    selectedPizzaSizeState: MutableState<PizzaSize>
+){
+    val selectedSize = remember {
+        mutableStateOf(pizzaSizeList.first())
+    }
+    val selectedIndex = remember {
+        mutableStateOf(0)
+    }
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        LazyColumn{
+            pizzaSizeList.forEachIndexed { index, pizzaSize ->
+                item {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        RadioButton(
+                            selected = (index == selectedIndex.value),
+                            onClick = {
+                                selectedSize.value = pizzaSize
+                                selectedIndex.value = index
+                                selectedPizzaSizeState.value = pizzaSize
+                            }
+                        )
+                        Text(text = "${pizzaSize.size} ($${pizzaSize.price})")
+                    }
+                }
+            }
+        }
+    }
 }
 
 @Preview(showBackground = true)

@@ -9,7 +9,7 @@ class Order (
     }
     fun calculateTotal(): Int {
         val sumOfToppingsPrice = this.toppings.reduce { acc, topping ->
-            Topping("tmpTopping",acc.price + topping.price)
+            Topping(acc.name,acc.price + topping.price, acc.isSelected.value)
         }.price
         return this.size.price + sumOfToppingsPrice
     }
