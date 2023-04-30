@@ -52,19 +52,30 @@ fun Home(modifier: Modifier = Modifier ) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Checkbox(
-                checked = isCheckedPizzaAmericana.value, onCheckedChange = {})
+                checked = isCheckedPizzaAmericana.value,
+                onCheckedChange = {newValue ->
+                    isCheckedPizzaAmericana.value = newValue
+                })
             Text(text = "Pizza americana")
         }
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Checkbox(checked = isCheckedPizzaHawaiana.value, onCheckedChange = {})
+            Checkbox(
+                checked = isCheckedPizzaHawaiana.value,
+                onCheckedChange = {newValue ->
+                    isCheckedPizzaHawaiana.value = newValue
+                })
             Text(text = "Pizza hawaiana")
         }
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Checkbox(checked = isCheckedPizzaVegetariana.value, onCheckedChange = {})
+            Checkbox(
+                checked = isCheckedPizzaVegetariana.value,
+                onCheckedChange = {newValue ->
+                    isCheckedPizzaVegetariana.value = newValue
+                })
             Text(text = "Pizza vegetariana")
         }
     }
