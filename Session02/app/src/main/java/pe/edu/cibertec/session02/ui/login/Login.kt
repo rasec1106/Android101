@@ -23,15 +23,21 @@ fun Login(){
         Text(text = "Login")
         // onValueChange needs a function, so we can pass a {} at a first moment
         TextField(
-            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp),
             label = { Text(text = "Username")},
             value = "",
             onValueChange = {},
             // leadingIcon puts an icon at the beginning, trailingIcon at the end
             leadingIcon = {Icon(Icons.Default.Person, null)}
         )
+        // We can use another composable to add space
+        Spacer(modifier = Modifier.height(8.dp))
         TextField(
-            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp),
             label = { Text(text = "Password")},
             value = "",
             onValueChange = {},
