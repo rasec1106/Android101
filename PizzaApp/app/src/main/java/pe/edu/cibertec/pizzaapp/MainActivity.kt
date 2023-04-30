@@ -3,16 +3,17 @@ package pe.edu.cibertec.pizzaapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import pe.edu.cibertec.pizzaapp.ui.theme.PizzaAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -44,10 +45,33 @@ fun Home(modifier: Modifier = Modifier ) {
     val isCheckedPizzaVegetariana = remember {
         mutableStateOf(false)
     }
+    val name = remember {
+        mutableStateOf("")
+    }
+    val quantity = remember {
+        mutableStateOf("")
+    }
 
-    Column(modifier = modifier) {
-        TextField(value = "Name", onValueChange = {})
-        TextField(value = "Quantity", onValueChange = {})
+    Column(modifier = modifier.fillMaxSize().padding(8.dp)) {
+        TextField(
+            label = { Text(text = "Name")},
+            modifier = Modifier.fillMaxWidth(),
+            value = name.value,
+            onValueChange = {
+                name.value = it
+            }
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        TextField(
+            // Select only numbers for the input
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            label = { Text(text = "Quantity")},
+            modifier = Modifier.fillMaxWidth(),
+            value = quantity.value,
+            onValueChange = {
+                quantity.value = it
+            }
+        )
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
