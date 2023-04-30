@@ -3,11 +3,12 @@ package pe.edu.cibertec.todo.ui.screens.tasks
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,23 +30,54 @@ fun Tasks(){
     var newName = remember {
         mutableStateOf(TextFieldValue())
     }
-    Column {
-        TextField(
-            modifier = Modifier.fillMaxWidth(),
-            label = { Text(text = "New name")},
-            value = newName.value,
-            onValueChange = {
-                newName.value = it
-            }
-        )
-        Button(onClick = {
-            newName.value = TextFieldValue("Prueba")
-        }) {
-            Text(text = "Submit")
+    // Wrapping all inside a new Composable called Scaffold
+    Scaffold(
+        /**
+         * Scaffold has integrated components that can be useful
+         * For example we can have a floating button
+         */
+//        floatingActionButton = {
+//            FloatingActionButton(onClick = { /*TODO*/ }) {
+//                Icon(Icons.Filled.Add, null)
+//            }
+//        },
+        /**
+         * And/Or we can add a top bar
+         */
+        topBar = {
+            // The top bar can be declared also this way, but the second one has a different format because it's a title
+//            TopAppBar {
+//                Text(text = "To Do")
+//            }
+            TopAppBar(
+                title = {Text(text = "To Do")},
+                actions = {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(Icons.Filled.Add, null)
+                    }
+                }
+            )
         }
-        LazyColumn(modifier = Modifier.fillMaxSize()){
-            items(names){
-                Text(text = it)
+    ) { paddingValues ->
+        Column(modifier = Modifier.padding(paddingValues)) {
+            TextField(
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text(text = "New name") },
+                value = newName.value,
+                onValueChange = {
+                    newName.value = it
+                }
+            )
+            // This button has been replaced by the floating button of the Scaffold
+//            Button(onClick = {
+//                newName.value = TextFieldValue("Prueba")
+//            }) {
+//                Text(text = "Submit")
+//            }
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                items(names) {
+                    Text(text = it)
+                }
             }
         }
     }
