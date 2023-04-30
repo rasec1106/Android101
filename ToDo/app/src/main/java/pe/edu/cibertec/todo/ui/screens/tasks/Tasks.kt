@@ -10,6 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -24,10 +25,13 @@ fun Tasks(){
      * It can be scrollable and has a flexible height
      */
 
-    val names = listOf("Lili","Diego","Jorge")
-
+//    val names = mutableListOf("Lili","Diego","Jorge")
+    // We transform names into a state, so Kotlin can re-render when it changes
+    val names = remember {
+        mutableStateListOf<String>()
+    }
     // Create a state
-    var newName = remember {
+    val newName = remember {
         mutableStateOf(TextFieldValue())
     }
     // Wrapping all inside a new Composable called Scaffold
@@ -45,14 +49,16 @@ fun Tasks(){
          * And/Or we can add a top bar
          */
         topBar = {
-            // The top bar can be declared also this way, but the second one has a different format because it's a title
+            // The top bar can be declared also this way, but the second one has a different format because it has a title
 //            TopAppBar {
 //                Text(text = "To Do")
 //            }
             TopAppBar(
                 title = {Text(text = "To Do")},
                 actions = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = {
+                        names.add(newName.value.text)
+                    }) {
                         Icon(Icons.Filled.Add, null)
                     }
                 }
