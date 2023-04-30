@@ -43,10 +43,15 @@ fun Login(){
             onValueChange = {},
             leadingIcon = {Icon(Icons.Default.Lock, null)}
         )
-        Button(onClick = { /*TODO*/ }) {
+        Button(
+            modifier = Modifier.fillMaxWidth().padding(8.dp,16.dp,8.dp,0.dp),
+            onClick = { /*TODO*/ }
+        ) {
             Text(text = "Sign in")
         }
-        Button(onClick = { /*TODO*/ }) {
+        Button(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
+            onClick = { /*TODO*/ }) {
             Text(text = "Sign up")
         }
         TextButton(onClick = { /*TODO*/ }) {
