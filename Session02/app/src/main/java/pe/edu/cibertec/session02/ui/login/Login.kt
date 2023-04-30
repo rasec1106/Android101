@@ -3,6 +3,7 @@ package pe.edu.cibertec.session02.ui.login
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
@@ -24,10 +25,12 @@ fun Login(){
         Text(text = "Login")
         // onValueChange needs a function, so we can pass a {} at a first moment
         TextField(
+            modifier = Modifier.fillMaxWidth(),
             label = { Text(text = "Username")},
             value = "",
             onValueChange = {} )
         TextField(
+            modifier = Modifier.fillMaxWidth(),
             label = { Text(text = "Password")},
             value = "",
             onValueChange = {} )
