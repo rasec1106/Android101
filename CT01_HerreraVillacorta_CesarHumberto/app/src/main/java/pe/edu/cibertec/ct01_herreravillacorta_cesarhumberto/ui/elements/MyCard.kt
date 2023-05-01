@@ -1,6 +1,5 @@
 package pe.edu.cibertec.ct01_herreravillacorta_cesarhumberto.ui.elements
 
-import android.icu.text.CaseMap.Title
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.Text
@@ -18,7 +17,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun MyCard(
     title: String,
-    content: @Composable() () -> Unit
+    content: @Composable () -> Unit
 ) {
     Card(
         elevation = 2.dp,
@@ -31,7 +30,7 @@ fun MyCard(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column() {
+            Column {
                 Row(modifier = Modifier.fillMaxWidth()) {
                     Text(text = title)
                 }
