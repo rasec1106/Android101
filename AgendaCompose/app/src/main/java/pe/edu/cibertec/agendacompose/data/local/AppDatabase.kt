@@ -7,6 +7,7 @@ import androidx.room.RoomDatabase
 import pe.edu.cibertec.agendacompose.data.model.Contact
 
 @Database(entities = [Contact::class], version = 1)
+// Don't forget to add dependencies in the build.gradle(Module:app)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun contactDao() : ContactDAO
 
