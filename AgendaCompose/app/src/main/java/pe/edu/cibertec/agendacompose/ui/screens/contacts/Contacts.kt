@@ -8,11 +8,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -85,13 +87,18 @@ fun Contacts(){
                             isEditing.value = true
                             editContact.value = contact
                     }) {
-                        Row (
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                                ){
-                            Text(text = contact.name)
-                            IconButton(onClick = {
+//                        Row (
+//                            modifier = Modifier.fillMaxWidth(),
+//                            horizontalArrangement = Arrangement.SpaceBetween,
+//                            verticalAlignment = Alignment.CenterVertically
+//                        ){
+                        // We can use weights
+                        Row{
+                            Text(modifier = Modifier.weight(6f), text = contact.name)
+                            IconButton(modifier = Modifier.weight(1f), onClick = {}) {
+                                Icon(Icons.Filled.Favorite, null, tint = Color.Blue)
+                            }
+                            IconButton(modifier = Modifier.weight(1f), onClick = {
                                 contactDao.delete(contact)
                                 contacts.value = contactDao.fetchAll()
                             }) {
