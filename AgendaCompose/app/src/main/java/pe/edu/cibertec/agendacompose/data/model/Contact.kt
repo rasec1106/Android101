@@ -9,5 +9,5 @@ data class Contact(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     @ColumnInfo(name = "firstname")
-    val name: String
+    var name: String
 )
