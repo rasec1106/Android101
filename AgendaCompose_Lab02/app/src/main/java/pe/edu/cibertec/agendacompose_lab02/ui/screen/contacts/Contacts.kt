@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -27,6 +28,9 @@ fun Contacts(){
     val contacts = remember {
         mutableStateOf(listOf<Contact>())
     }
+    val favoritesArray= remember {
+        mutableStateOf(listOf<Int>())
+    }
     val name = remember {
         mutableStateOf("")
     }
@@ -39,10 +43,11 @@ fun Contacts(){
     val context = LocalContext.current
     val contactDao = AppDatabase.getInstance(context).contactDao()
     contacts.value = contactDao.getAll()
+    favoritesArray.value = contacts.value.map { contact: Contact -> contact.isFavorite }
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Agenda") },
+                title = { Text(text = "Agenda Compose") },
                 actions = {
                     IconButton(onClick = {
                         if(isEditing.value){
@@ -53,6 +58,7 @@ fun Contacts(){
                             contactDao.insert(contact)
                         }
                         contacts.value = contactDao.getAll()
+                        favoritesArray.value = contacts.value.map { contact: Contact -> contact.isFavorite }
                         name.value = ""
                         isEditing.value = false
                     }) {
@@ -77,38 +83,36 @@ fun Contacts(){
                 })
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
                 items(contacts.value) { contact ->
-                    val isFavorite = remember {
-                        mutableStateOf(contact.isFavorite)
-                    }
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(8.dp),
+                            .padding(4.dp),
+                        backgroundColor = Color.hsl(207F, 0.22F, 0.88F,1F),
                         onClick = {
                             name.value = contact.name
                             isEditing.value = true
                             editContact.value = contact
                         }) {
-//                        Row (
-//                            modifier = Modifier.fillMaxWidth(),
-//                            horizontalArrangement = Arrangement.SpaceBetween,
-//                            verticalAlignment = Alignment.CenterVertically
-//                        ){
-                        // We can use weights
-                        Row{
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(12.dp, 4.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ){
                             Text(modifier = Modifier.weight(6f), text = contact.name)
                             IconButton(modifier = Modifier.weight(1f), onClick = {
                                 contact.isFavorite = (contact.isFavorite + 1) % 2
-                                isFavorite.value = contact.isFavorite
-                                //contactDao.saveFavorite(contact)
                                 contactDao.update(contact)
+                                contacts.value = contactDao.getAll()
+                                favoritesArray.value = contacts.value.map { contact: Contact -> contact.isFavorite }
                             }) {
-                                if(isFavorite.value == 1) Icon(Icons.Filled.Favorite, null, tint = Color.Blue)
+                                if(favoritesArray.value[contacts.value.indexOf(contact)] == 1) Icon(Icons.Filled.Favorite, null, tint = Color.Blue)
                                 else Icon(Icons.Filled.Favorite,null)
                             }
                             IconButton(modifier = Modifier.weight(1f), onClick = {
                                 contactDao.delete(contact)
                                 contacts.value = contactDao.getAll()
+                                favoritesArray.value = contacts.value.map { contact: Contact -> contact.isFavorite }
                             }) {
                                 Icon(Icons.Filled.Delete, null)
                             }
