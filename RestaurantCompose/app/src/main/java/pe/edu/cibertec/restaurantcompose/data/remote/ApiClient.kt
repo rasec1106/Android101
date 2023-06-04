@@ -6,6 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object ApiClient {
     const val API_BASE_URL = "https://plain-marbled-muskox.glitch.me/"
     private var restaurantInterface: RestaurantInterface? = null
+    private var userInterface: UserInterface? = null
 
     fun getRestaurantInterface(): RestaurantInterface{
         val retrofit = Retrofit.Builder()
@@ -15,5 +16,14 @@ object ApiClient {
         restaurantInterface = retrofit.create(RestaurantInterface::class.java)
 
         return restaurantInterface as RestaurantInterface
+    }
+    fun getUserInterface(): UserInterface{
+        val retrofit = Retrofit.Builder()
+            .baseUrl(API_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        userInterface = retrofit.create(UserInterface::class.java)
+
+        return userInterface as UserInterface
     }
 }
