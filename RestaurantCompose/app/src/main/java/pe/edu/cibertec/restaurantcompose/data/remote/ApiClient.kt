@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object ApiClient {
     const val API_BASE_URL = "https://plain-marbled-muskox.glitch.me/"
     private var restaurantInterface: RestaurantInterface? = null
-    
+
     fun getRestaurantInterface(): RestaurantInterface{
         val retrofit = Retrofit.Builder()
             .baseUrl(API_BASE_URL)
