@@ -23,14 +23,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import pe.edu.cibertec.restaurantcompose.data.model.Restaurant
-import pe.edu.cibertec.restaurantcompose.data.model.User
-import pe.edu.cibertec.restaurantcompose.data.remote.ApiClient
+import pe.edu.cibertec.restaurantcompose.util.Result
+import pe.edu.cibertec.restaurantcompose.data.repository.UserRepository
 import pe.edu.cibertec.restaurantcompose.ui.Route
 import pe.edu.cibertec.restaurantcompose.ui.theme.RestaurantComposeTheme
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+
 
 @Composable
 fun SignUp(navController: NavController){
@@ -52,6 +49,7 @@ fun SignUp(navController: NavController){
     }
 
     val context = LocalContext.current
+    val userRepository = UserRepository()
 
     // Column is a composable item that help us to set the elements
     Column(
@@ -136,40 +134,13 @@ fun SignUp(navController: NavController){
                 .fillMaxWidth()
                 .padding(8.dp, 16.dp, 8.dp, 0.dp),
             onClick = {
-                val userInterface = ApiClient.getUserInterface()
-                val validateUser = userInterface.validateUser(username.value.text)
-
-                validateUser.enqueue(object : Callback<List<User>> {
-                    override fun onResponse(
-                        call: Call<List<User>>,
-                        response: Response<List<User>>
-                    ){
-                        if (response.isSuccessful){
-                            if (response.body()!!.isEmpty()){
-                                val createUser = userInterface.createUser(User(username.value.text, password.value.text))
-                                createUser.enqueue(object : Callback<User> {
-                                    override fun onResponse(
-                                        call: Call<User>,
-                                        response: Response<User>
-                                    ){
-                                        if (response.isSuccessful){
-                                            Toast.makeText(context,"Nuevo usuario", Toast.LENGTH_SHORT).show()
-                                            navController.navigate(Route.Restaurants.route)
-                                        }
-                                    }
-                                    override fun onFailure(call: Call<User>, t: Throwable){
-                                        t.message?.let { Log.d("Couldn't create user", it) }
-                                    }
-                                })
-                            }else{
-                                Toast.makeText(context,"Usuario ya registrado", Toast.LENGTH_SHORT).show()
-                            }
-                        }
+                userRepository.createUser(username.value.text, password.value.text){ result ->
+                    if(result is Result.Success){
+                        navController.navigate(Route.Restaurants.route)
+                    }else{
+                        Toast.makeText(context, result.message.toString(), Toast.LENGTH_SHORT).show()
                     }
-                    override fun onFailure(call: Call<List<User>>, t: Throwable){
-                        t.message?.let { Log.d("Failure validating user", it) }
-                    }
-                })
+                }
             }) {
             Text(text = "Sign up")
         }
