@@ -17,16 +17,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import pe.edu.cibertec.restaurantcompose.data.model.Restaurant
 import pe.edu.cibertec.restaurantcompose.data.remote.ApiClient
+import pe.edu.cibertec.restaurantcompose.ui.login.Login
+import pe.edu.cibertec.restaurantcompose.ui.theme.RestaurantComposeTheme
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 @Composable
-fun RestaurantList(){
+fun RestaurantList(navController: NavController){
     val restaurants = remember{
         mutableStateOf(listOf<Restaurant>())
     }
@@ -77,4 +82,12 @@ fun RestaurantList(){
         }
     }
     
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DefaultPreview(){
+    RestaurantComposeTheme() {
+        RestaurantList(navController = rememberNavController())
+    }
 }

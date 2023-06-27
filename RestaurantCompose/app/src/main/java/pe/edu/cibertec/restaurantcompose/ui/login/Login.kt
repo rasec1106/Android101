@@ -11,6 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import pe.edu.cibertec.restaurantcompose.data.model.Restaurant
 import pe.edu.cibertec.restaurantcompose.data.model.User
 import pe.edu.cibertec.restaurantcompose.data.remote.ApiClient
@@ -20,7 +22,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 @Composable
-fun Login(){
+fun Login(navController: NavController){
     // Column is a composable item that help us to set the elements
     Column(
         modifier = Modifier.fillMaxSize(),     // we can add modifiers to change the behaviour
@@ -108,6 +110,6 @@ fun Login(){
 @Composable
 fun DefaultPreview(){
     RestaurantComposeTheme() {
-        Login()
+        Login(navController = rememberNavController())
     }
 }

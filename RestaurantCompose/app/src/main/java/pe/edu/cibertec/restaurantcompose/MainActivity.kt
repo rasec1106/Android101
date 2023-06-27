@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import pe.edu.cibertec.restaurantcompose.ui.Home
 import pe.edu.cibertec.restaurantcompose.ui.login.Login
 import pe.edu.cibertec.restaurantcompose.ui.restaurants.RestaurantList
 import pe.edu.cibertec.restaurantcompose.ui.theme.RestaurantComposeTheme
@@ -24,7 +25,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    RestaurantList()
+                    Home()
                 }
             }
         }
@@ -40,6 +41,6 @@ fun Greeting(name: String) {
 @Composable
 fun DefaultPreview() {
     RestaurantComposeTheme {
-        RestaurantList()
+        Home()
     }
 }
