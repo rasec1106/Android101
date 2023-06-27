@@ -11,15 +11,22 @@ import pe.edu.cibertec.restaurantcompose.ui.signup.SignUp
 @Composable
 fun Home(){
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "signup" ){
-        composable("signup"){
+    NavHost(navController = navController, startDestination = Route.SignUp.route ){
+        composable(Route.SignUp.route){
             SignUp(navController)
         }
-        composable("restaurants"){
+        composable(Route.Restaurants.route){
             RestaurantList(navController)
         }
-        composable("login"){
+        composable(Route.Login.route){
             Login(navController)
         }
     }
+}
+
+// a sealed class is like an enum
+sealed class Route(val route: String){
+    object Login: Route("login")
+    object Restaurants: Route("restaurants")
+    object SignUp: Route("signup")
 }

@@ -26,6 +26,7 @@ import androidx.navigation.compose.rememberNavController
 import pe.edu.cibertec.restaurantcompose.data.model.Restaurant
 import pe.edu.cibertec.restaurantcompose.data.model.User
 import pe.edu.cibertec.restaurantcompose.data.remote.ApiClient
+import pe.edu.cibertec.restaurantcompose.ui.Route
 import pe.edu.cibertec.restaurantcompose.ui.theme.RestaurantComposeTheme
 import retrofit2.Call
 import retrofit2.Callback
@@ -153,7 +154,7 @@ fun SignUp(navController: NavController){
                                     ){
                                         if (response.isSuccessful){
                                             Toast.makeText(context,"Nuevo usuario", Toast.LENGTH_SHORT).show()
-                                            navController.navigate("restaurants")
+                                            navController.navigate(Route.Restaurants.route)
                                         }
                                     }
                                     override fun onFailure(call: Call<User>, t: Throwable){
@@ -177,7 +178,7 @@ fun SignUp(navController: NavController){
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp),
             onClick = {
-                navController.navigate("login")
+                navController.navigate(Route.Login.route)
             }
         ) {
             Text(text = "Sign in")
