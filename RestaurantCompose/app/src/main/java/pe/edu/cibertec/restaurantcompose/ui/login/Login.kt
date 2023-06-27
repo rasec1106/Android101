@@ -1,4 +1,4 @@
-package pe.edu.cibertec.restaurantcompose.ui.restaurants
+package pe.edu.cibertec.restaurantcompose.ui.login
 
 import android.util.Log
 import androidx.compose.foundation.layout.*
@@ -91,7 +91,7 @@ fun Login(){
                     }
 
                     override fun onFailure(call: Call<User>, t: Throwable){
-                        TODO("Not yet implemented")
+                        t.message?.let { Log.d("RestaurantList", it) }
                     }
                 })
             }) {
