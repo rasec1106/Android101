@@ -1,6 +1,7 @@
 package pe.edu.cibertec.restaurantcompose.ui.login
 
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -14,6 +15,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
@@ -22,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import pe.edu.cibertec.restaurantcompose.data.repository.UserRepository
-
+import pe.edu.cibertec.restaurantcompose.util.Result
 import pe.edu.cibertec.restaurantcompose.ui.Route
 import pe.edu.cibertec.restaurantcompose.ui.theme.RestaurantComposeTheme
 
@@ -41,6 +43,7 @@ fun Login(navController: NavController){
     }
 
     val userRepository = UserRepository()
+    val context = LocalContext.current
 
     // Column is a composable item that help us to set the elements
     Column(
@@ -99,8 +102,10 @@ fun Login(navController: NavController){
                 .padding(8.dp, 16.dp, 8.dp, 0.dp),
             onClick = {
                 userRepository.login(username.value.text, password.value.text){ result ->
-                    if(result){
+                    if(result is Result.Success){
                         navController.navigate(Route.Restaurants.route)
+                    }else{
+                        Toast.makeText(context, result.message.toString(),Toast.LENGTH_SHORT).show()
                     }
                 }
             }

@@ -11,7 +11,7 @@ import pe.edu.cibertec.restaurantcompose.ui.signup.SignUp
 @Composable
 fun Home(){
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Route.SignUp.route ){
+    NavHost(navController = navController, startDestination = Route.Login.route ){
         composable(Route.SignUp.route){
             SignUp(navController)
         }
