@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import pe.edu.cibertec.restaurantcompose.data.repository.UserRepository
 
 import pe.edu.cibertec.restaurantcompose.ui.Route
 import pe.edu.cibertec.restaurantcompose.ui.theme.RestaurantComposeTheme
@@ -38,6 +39,8 @@ fun Login(navController: NavController){
     val showPassword = remember{
         mutableStateOf(false)
     }
+
+    val userRepository = UserRepository()
 
     // Column is a composable item that help us to set the elements
     Column(
@@ -95,7 +98,11 @@ fun Login(navController: NavController){
                 .fillMaxWidth()
                 .padding(8.dp, 16.dp, 8.dp, 0.dp),
             onClick = {
-
+                userRepository.login(username.value.text, password.value.text){ result ->
+                    if(result){
+                        navController.navigate(Route.Restaurants.route)
+                    }
+                }
             }
         ) {
             Text(text = "Sign in")
